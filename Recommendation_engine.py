@@ -39,8 +39,19 @@ def calculate_career_match(student_profile, career_profile):
         career_skill = career_profile[attribute].get("skill")
         career_involvement = career_profile[attribute].get("involvement")
 
-        if student_skill is None or student_preference is None:
+        if student_skill is None and student_preference is None:
             continue
+
+        if student_skill is not None:
+            skill_match = calculate_skill_match(student_skill, career_skill)
+        else:
+            skill_match = None
+
+
+        if student_preference is not None:
+            preference_match = calculate_preference_match(student_preference, career_involvement)
+        else:
+            preference_match = None
 
         skill_match = calculate_skill_match(student_skill, career_skill)
 
