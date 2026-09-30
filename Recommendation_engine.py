@@ -42,22 +42,23 @@ def calculate_career_match(student_profile, career_profile):
         if student_skill is None and student_preference is None:
             continue
 
+        #Handle student_skill missing attribute
         if student_skill is not None:
             skill_match = calculate_skill_match(student_skill, career_skill)
         else:
             skill_match = None
 
-
+        #Handle Student_preference missing attribute
         if student_preference is not None:
             preference_match = calculate_preference_match(student_preference, career_involvement)
         else:
             preference_match = None
+        #Handle missing skill_match
+        if skill_match is not None:
+            attribute_match = calculate_attribute_match(skill_match, preference_match)
+        else:
+            attribute_match = preference_match 
 
-        skill_match = calculate_skill_match(student_skill, career_skill)
-
-        preference_match = calculate_preference_match(student_preference, career_involvement)
-
-        attribute_match = calculate_attribute_match(skill_match, preference_match)
 
         attribute_matches.append(attribute_match)
 
