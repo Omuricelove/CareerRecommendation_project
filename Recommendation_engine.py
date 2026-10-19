@@ -2,6 +2,39 @@ from Student_profile import student_profile
 from Career_profile import career_profile
 
 
+def validate_rating(value):
+    if value is None:
+        return True
+    if not isinstance(value, int) or isinstance(value, bool):
+        return False
+    if value < 1 or value > 5:
+        return False
+    return True
+
+def validate_student_profile(student_profile):
+    validation_errors = []
+
+    for attribute, rating in student_profile.items():
+
+        for field in ["skill", "preference"]:
+            value = rating.get(field)
+
+            if value is None:
+                continue
+
+            if not validate_rating(value):
+                validation_errors.append({
+                    "attribute": attribute,
+                    "field": field,
+                    "value": value,
+                    "reason": "Rating must be an integer from 1 to 5"
+                })
+
+                rating[field] = None
+                
+    return student_profile,validation_errors
+
+
 def calculate_skill_match(student_skill, career_requirement):
     calculate_skill = student_skill / career_requirement * 100
 
@@ -53,23 +86,32 @@ def calculate_career_match(student_profile, career_profile):
             preference_match = calculate_preference_match(student_preference, career_involvement)
         else:
             preference_match = None
+
         #Handle missing skill_match
-        if skill_match is not None:
+        if skill_match is not None and preference_match is not None:
             attribute_match = calculate_attribute_match(skill_match, preference_match)
+
+        elif skill_match is not None:
+            attribute_match = skill_match   
         else:
             attribute_match = preference_match 
 
-
-        attribute_matches.append(attribute_match)
+        if attribute_match is not None:
+            attribute_matches.append(attribute_match)
 
         print(attribute)
         print("Student Skill:", student_skill)
         print("Student Preference:", student_preference)
+        print("------------------------------------------")
         print("Career Skill:", career_skill)
         print("Career Involvement:", career_involvement)
+        print("------------------------------------------")
         print("Skill Match:", skill_match)
         print("Preference Match:", preference_match)
+        print("------------------------------------------")
         print("Attribute Match:", attribute_match)
+        print("\n")
+
 
     total = 0
 
@@ -83,16 +125,19 @@ def calculate_career_match(student_profile, career_profile):
 
     return average
 
+if __name__ == "__main__":
 
-career_scores = {}
+    career_scores = {}
 
-for career in career_profile:
+    for career in career_profile:
 
-    career_score = calculate_career_match(student_profile, career_profile[career])
+     career_score = calculate_career_match(student_profile, career_profile[career])
 
-    career_scores[career] = career_score
+     career_scores[career] = career_score
 
 
-ranked_careers = sorted(career_scores.items(), key=lambda item: item[1],reverse=True)
+    ranked_careers = sorted(career_scores.items(), key=lambda item: item[1],reverse=True)
 
-print(ranked_careers)
+    print(ranked_careers)
+
+    
