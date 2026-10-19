@@ -14,7 +14,7 @@ def validate_rating(value):
 def validate_student_profile(student_profile):
     validation_errors = []
 
-    # Check each attribute in the student profile
+    # This check each attribute in the student profile
     for attribute, rating in student_profile.items():
 
         # Check skill and preference separately
