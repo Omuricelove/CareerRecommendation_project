@@ -25,7 +25,7 @@ def validate_student_profile(student_profile):
             if value is None:
                 continue
 
-            # Record invalid ratings      
+            # This Record invalid ratings      
             if not validate_rating(value):
                 validation_errors.append({
                     "attribute": attribute,
