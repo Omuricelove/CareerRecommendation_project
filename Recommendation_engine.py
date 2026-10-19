@@ -14,14 +14,18 @@ def validate_rating(value):
 def validate_student_profile(student_profile):
     validation_errors = []
 
+    # Check each attribute in the student profile
     for attribute, rating in student_profile.items():
 
+        # Check skill and preference separately
         for field in ["skill", "preference"]:
             value = rating.get(field)
 
+            # Missing ratings are allowed
             if value is None:
                 continue
 
+            # Record invalid ratings      
             if not validate_rating(value):
                 validation_errors.append({
                     "attribute": attribute,
@@ -30,8 +34,10 @@ def validate_student_profile(student_profile):
                     "reason": "Rating must be an integer from 1 to 5"
                 })
 
-                rating[field] = None
                 
+                # Replace invalid rating with None
+                rating[field] = None
+
     return student_profile,validation_errors
 
 
