@@ -4,12 +4,12 @@ from Recommendation_engine import validate_rating, validate_student_profile
 
 test_student_profile = {
     "programming": {
-        "skill": 6,
-        "preference": 5
+        "skill": 5,
+        "preference": 4
     },
     "problem_solving": {
-        "skill": 3,
-        "preference": 4
+        "skill": 5,
+        "preference": 5
     },
     "communication": {
         "skill": None,
@@ -17,13 +17,11 @@ test_student_profile = {
     }
 }
 
+cleaned_profile, validation_errors = validate_student_profile(test_student_profile)
 
-score = calculate_career_match(test_student_profile, career_profile["ui_ux_designer"])
+score = calculate_career_match(cleaned_profile, career_profile["ui_ux_designer"])
 
 print(score)
-
-
-cleaned_profile, validation_errors = validate_student_profile(test_student_profile)
 
 print("Cleaned profile:")
 print(cleaned_profile)

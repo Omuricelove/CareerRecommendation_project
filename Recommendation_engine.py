@@ -9,7 +9,7 @@ def validate_rating(value):
         return False
     if value < 1 or value > 5:
         return False
-    return True
+    return True 
 
 def validate_student_profile(student_profile):
     validation_errors = []
@@ -68,7 +68,10 @@ def calculate_attribute_match(skill_match, preference_match):
 
 def calculate_career_match(student_profile, career_profile):
 
+    #This is where all attributes append to
     attribute_matches = []
+    #This check how many attributes been check or run through in student profile
+    attributes_available = 0
 
     for attribute in student_profile:
 
@@ -78,17 +81,20 @@ def calculate_career_match(student_profile, career_profile):
         career_skill = career_profile[attribute].get("skill")
         career_involvement = career_profile[attribute].get("involvement")
 
+        if student_skill is not None or student_preference is not None:
+            attributes_available += 1
+
         if student_skill is None and student_preference is None:
             continue
 
-        #Handle student_skill missing attribute
-        if student_skill is not None:
+        #Handle student_skill missing attribute and career_skill
+        if student_skill is not None and career_skill is not None:
             skill_match = calculate_skill_match(student_skill, career_skill)
         else:
             skill_match = None
 
-        #Handle Student_preference missing attribute
-        if student_preference is not None:
+        #Handle Student_preference missing attribute and career_involvement
+        if student_preference is not None and career_involvement is not None:
             preference_match = calculate_preference_match(student_preference, career_involvement)
         else:
             preference_match = None
@@ -117,7 +123,7 @@ def calculate_career_match(student_profile, career_profile):
         print("------------------------------------------")
         print("Attribute Match:", attribute_match)
         print("\n")
-
+        print("Attribute Available: ",attributes_available)
 
     total = 0
 
@@ -126,6 +132,10 @@ def calculate_career_match(student_profile, career_profile):
 
     if len(attribute_matches) == 0:
         return None
+
+    #This counts how many attributes are evaluated
+    attributes_evaluated = len(attribute_matches)
+    print("Attributes Evaluated: ", attributes_evaluated)
 
     average = total / len(attribute_matches)
 
